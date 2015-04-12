@@ -1,0 +1,89 @@
+﻿Build started 2015-04-12 21:54:25.
+     1>Project "C:\Users\maro\Documents\Visual Studio 2013\Projects\User Interface\UserInterface\Sim_interface\Sim_interface.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\boost\boost_1_55_0" /IC:\Users\maro\Documents\imebra\library\base\include /IC:\Users\maro\Documents\imebra\library\imebra\include /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib ..\Maro.cpp ..\Parser.cpp
+         Maro.cpp
+     1>..\Maro.cpp(93): warning C4101: 'channelPixelSize' : unreferenced local variable
+         Parser.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\maro\Documents\Visual Studio 2013\Projects\User Interface\UserInterface\Sim_interface\Debug\Sim_interface.exe" /INCREMENTAL /NOLOGO /ASSEMBLYRESOURCE:Debug\Sim_interface.MainWindow.resources /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\maro\Documents\Visual Studio 2013\Projects\User Interface\UserInterface\Sim_interface\Debug\Sim_interface.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"Main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug\baseObject.obj
+         Debug\baseStream.obj
+         Debug\charsetConversion.obj
+         Debug\charsetConversionIconv.obj
+         Debug\charsetConversionICU.obj
+         Debug\charsetConversionWindows.obj
+         Debug\criticalSection.obj
+         Debug\exception.obj
+         Debug\huffmanTable.obj
+         Debug\memory.obj
+         Debug\memoryStream.obj
+         Debug\stream.obj
+         Debug\streamController.obj
+         Debug\streamReader.obj
+         Debug\streamWriter.obj
+         Debug\thread.obj
+         Debug\buffer.obj
+         Debug\charsetsList.obj
+         Debug\codec.obj
+         Debug\codecFactory.obj
+         Debug\colorTransform.obj
+         Debug\colorTransformsFactory.obj
+         Debug\data.obj
+         Debug\dataGroup.obj
+         Debug\dataHandler.obj
+         Debug\dataHandlerDate.obj
+         Debug\dataHandlerDateTime.obj
+         Debug\dataHandlerDateTimeBase.obj
+         Debug\dataHandlerString.obj
+         Debug\dataHandlerStringAE.obj
+         Debug\dataHandlerStringAS.obj
+         Debug\dataHandlerStringCS.obj
+         Debug\dataHandlerStringDS.obj
+         Debug\dataHandlerStringIS.obj
+         Debug\dataHandlerStringLO.obj
+         Debug\dataHandlerStringLT.obj
+         Debug\dataHandlerStringPN.obj
+         Debug\dataHandlerStringSH.obj
+         Debug\dataHandlerStringST.obj
+         Debug\dataHandlerStringUI.obj
+         Debug\dataHandlerStringUnicode.obj
+         Debug\dataHandlerStringUT.obj
+         Debug\dataHandlerTime.obj
+         Debug\dataSet.obj
+         Debug\dicomCodec.obj
+         Debug\dicomDict.obj
+         Debug\dicomDir.obj
+         Debug\drawBitmap.obj
+         Debug\image.obj
+         Debug\jpegCodec.obj
+         Debug\LUT.obj
+         Debug\modalityVOILUT.obj
+         Debug\MONOCHROME1ToMONOCHROME2.obj
+         Debug\MONOCHROME1ToRGB.obj
+         Debug\MONOCHROME2ToRGB.obj
+         Debug\MONOCHROME2ToYBRFULL.obj
+         Debug\PALETTECOLORToRGB.obj
+         Debug\RGBToMONOCHROME2.obj
+         Debug\RGBToYBRFULL.obj
+         Debug\RGBToYBRPARTIAL.obj
+         Debug\transaction.obj
+         Debug\transform.obj
+         Debug\transformHighBit.obj
+         Debug\transformsChain.obj
+         Debug\viewHelper.obj
+         Debug\VOILUT.obj
+         Debug\waveform.obj
+         Debug\YBRFULLToMONOCHROME2.obj
+         Debug\YBRFULLToRGB.obj
+         Debug\YBRPARTIALToRGB.obj
+         Debug\MainWindow.obj
+         Debug\Maro.obj
+         Debug\Parser.obj
+         "Debug\.NETFramework,Version=v4.5.AssemblyAttributes.obj"
+         Sim_interface.vcxproj -> C:\Users\maro\Documents\Visual Studio 2013\Projects\User Interface\UserInterface\Sim_interface\Debug\Sim_interface.exe
+     1>Done Building Project "C:\Users\maro\Documents\Visual Studio 2013\Projects\User Interface\UserInterface\Sim_interface\Sim_interface.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:24.95

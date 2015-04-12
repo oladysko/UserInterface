@@ -2,14 +2,15 @@
 
 using namespace System;
 using namespace System::Windows::Forms;
-using namespace System::Diagnostics;
+using namespace System::Drawing;
 
 [STAThread]
-void MainWindow(array<String^>^ args)
+
+void Main(array<String^>^ args)
 {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 
-	UserInterface::MainWindow mWindow;
-	Application::Run(%mWindow);
+	Sim_interface::MainWindow myForm;
+	Application::Run(%myForm);
 }
