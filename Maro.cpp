@@ -155,8 +155,7 @@ namespace puntoexe
 			///                      virtual height, in pixels
 			///
 			///////////////////////////////////////////////////////////
-		}
-
+		}	 
 		void myView::setScrollSize(imbxUint32 newScrollSizeX, imbxUint32 newScrollSizeY, bool bInvalidate)
 		{
 			/// \brief Overwrite this method with a function that sets
@@ -179,7 +178,6 @@ namespace puntoexe
 			///////////////////////////////////////////////////////////
 		}
 
-
 		void myView::getScrollPosition(imbxInt32* pScrollX, imbxInt32* pScrollY)
 		{
 			/// \brief Overwrite this method with a function that
@@ -196,7 +194,6 @@ namespace puntoexe
 			///////////////////////////////////////////////////////////
 		}
 
-
 		void myView::setScrollPosition(imbxInt32 scrollX, imbxInt32 scrollY)
 		{
 			/// \brief Overwrite this method with a function that
@@ -210,7 +207,6 @@ namespace puntoexe
 			///
 			///////////////////////////////////////////////////////////
 		}
-
 
 		void myView::drawRectangle(void* pDeviceContext, imbxInt32 left, imbxInt32 top, imbxInt32 right, imbxInt32 bottom, imbxUint8 colorRed, imbxUint8 colorGreen, imbxUint8 colorBlue)
 		{
@@ -320,7 +316,6 @@ namespace puntoexe
 			///////////////////////////////////////////////////////////
 		}
 
-
 		void myView::updateWindow()
 		{
 			/// \brief Overwrite this method with a function that
@@ -354,8 +349,7 @@ namespace puntoexe
 			return false;
 		}
 
-
-		int testView(imbxUint32 frameNumber, std::string fileName)
+		 int testView(imbxUint32 frameNumber, std::string fileName)
 		{
 			cout << "testView begin" << endl;
 			string path = "C:\\Users\\maro\\Documents\\DicomFiles\\digest_article\\brain_001.dcm";
@@ -401,7 +395,7 @@ namespace puntoexe
 
 			drawBitmap testBitmap(convertedImage, chain);
 			//ptr<unsigned> bitMapMemory = NULL;
-			testBitmap.getBitmap<drawBitmapBGRA, 1 >(iheight, iwidth, (imbxInt32)0, (imbxInt32)0, iheight, iwidth, NULL);
+			//double * pointerToBitmap = reinterpret_cast <double*>( testBitmap.getBitmap<drawBitmapBGRA, 1 >(iheight, iwidth, (imbxInt32)0, (imbxInt32)0, iheight, iwidth, NULL));
 			//myViewer.draw()
 			//viev is an abstract class
 			//====================================================================================================View Test
@@ -410,5 +404,66 @@ namespace puntoexe
 
 			return 0;
 		}
+
+		 namespace Maro
+		 {
+			 void getFrameSize(imbxUint32 frameNumber, std::string fileName, imbxUint32& height, imbxUint32& width)
+			 {
+				std::cout << "getFrameSize" << std::endl;
+				ptr<stream> readStream(new stream);
+				readStream->openFile(fileName, std::ios::in);
+				//parse content of the file
+				ptr<streamReader> reader(new streamReader(readStream));
+				//create dataSet structure, that contains the dicom tags defined in the file
+				//Get a codec factory and let it use the right codec to create a dataset
+				//from the input stream	
+				ptr<dataSet> testDataSet = codecs::codecFactory::getCodecFactory()->load(reader);
+				//read image
+				ptr<image> Image = testDataSet->getImage(frameNumber);
+//				imbxUint32 width, height;
+				Image->getSize(&width, &height);
+			}
+			 void getValuesMatrix(imbxUint32 frameNumber, std::string fileName, imbxUint32 height, imbxUint32 width, int * outputMatrix)
+			 {
+				 ptr<stream> readStream(new stream);
+				 readStream->openFile(fileName, std::ios::in);
+				 //parse content of the file
+				 ptr<streamReader> reader(new streamReader(readStream));
+				 //create dataSet structure, that contains the dicom tags defined in the file
+				 //Get a codec factory and let it use the right codec to create a dataset
+				 //from the input stream	
+				 ptr<dataSet> testDataSet = codecs::codecFactory::getCodecFactory()->load(reader);
+				 //read image
+				 ptr<image> firstImage = testDataSet->getImage(frameNumber);   				
+				 ptr<transforms::transform> modVOILUT(new transforms::modalityVOILUT(testDataSet));
+				 ptr<image> convertedImage(modVOILUT->allocateOutputImage(firstImage, width, height));
+				 ptr<transforms::VOILUT> myVoiLut(new transforms::VOILUT(testDataSet));
+				 //Apply the first VOI or LUT
+				 imbxUint32 lutId = myVoiLut->getVOILUTId(0);
+				 myVoiLut->setVOILUT(lutId);
+				 //prepare image for presentation
+				 ptr<image> presentationImage(myVoiLut->allocateOutputImage(convertedImage, width, height));
+				 myVoiLut->runTransform(convertedImage, 0, 0, width, height, presentationImage, 0, 0);
+				 //============================================================================================================
+				 imbxUint32 rowSize, channelPixelSize, channelNumber;
+				 ptr<imebra::handlers::dataHandlerNumericBase> myHandler = presentationImage->getDataHandler(false, &rowSize, &channelNumber, &channelNumber);
+				 //Retrive image's size in pizels
+				 imbxUint32 sizeX, sizeY;
+				 presentationImage->getSize(&sizeX, &sizeY);
+				 //scan all the rows
+				 imbxUint32 index(0);
+				 for (imbxUint32 scanY = 0; scanY < height; ++scanY){
+					 //scan all the colums
+					 for (imbxUint32 scanX = 0; scanX < width; ++scanX){
+						 for (imbxUint32 scanChannel = 0; scanChannel < channelNumber; ++scanChannel){
+							 imbxInt32 channelValue = myHandler->getSignedLong(index++);
+							 outputMatrix[scanX + scanY*height] =(int) channelValue;
+						 }
+					 }
+				 }
+
+			 }
+		 }
+		 
 	}
 }

@@ -4,6 +4,7 @@
 
 
 int imebra_test_function();
+
 namespace puntoexe
 {
 
@@ -216,6 +217,11 @@ namespace puntoexe
 			bool isMouseCaptured();
 		};
 		int testView(imbxUint32 frameNumber, std::string fileName);
+		namespace Maro
+		{
+			void getFrameSize(imbxUint32 frameNumber, std::string fileName, imbxUint32& height, imbxUint32& width);
+			void getValuesMatrix(imbxUint32 frameNumber, std::string fileName, imbxUint32 height, imbxUint32 width, int * outputMatrix);
+		}
 	}
 }
 

@@ -52,8 +52,10 @@ namespace Sim_interface {
 	private:
 		/// <summary>
 		/// Required designer variable.
+		Bitmap ^ dicomImage; //IS CAUSNG MEMORY LEAKING????=================================
 		/// </summary>
 		System::ComponentModel::Container ^components;
+		
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -154,6 +156,7 @@ namespace Sim_interface {
 		unsigned int frameNumber;
 		String^ debugInfo;
 		String^ fileName;
+		int bitmapHeight = 0, bitmapWidth = 0;
 		
 		std::string stdFileName;
 
@@ -167,21 +170,30 @@ namespace Sim_interface {
 			OpenFileDialog^ dlg = gcnew OpenFileDialog();
 			dlg->ShowDialog();
 			fileName = dlg->FileName; 			
-			MarshalString(fileName, stdFileName);
-			fileNametoPath(stdFileName);
+			ParserH::MarshalString(fileName, stdFileName);
+			ParserH::fileNametoPath(stdFileName);
 			String^ tmpString= gcnew String(stdFileName.c_str());
 			debugInfo = debugInfo + "selected file = \n" + tmpString + "\n";
 
-			this->Info_label->Text = debugInfo;
+			
 		}
 		catch (Exception^ errorHandle){
 			this->Info_label->Text = errorHandle->Message;
-		}
-
+			return;
+		}		
+		//get height and width
+		ParserH::getImageSize(bitmapHeight, bitmapWidth, frameNumber, stdFileName);
+		debugInfo = "bitmapHeight = " + bitmapHeight + "\nbitmapWidth = " + bitmapWidth;//Format16bppGrayScale
 		//create bitmap
-		Bitmap^ dicomImage;
+		//Bitmap^ dicomImage = gcnew Bitmap(bitmapHeight, bitmapWidth, Imaging::PixelFormat::Format16bppGrayScale);  //http://stackoverflow.com/questions/743549/how-to-put-image-in-a-picture-box-from-bitmap
+		this->dicomImage = gcnew Bitmap(bitmapHeight, bitmapWidth,Imaging::PixelFormat::Format24bppRgb);  //http://stackoverflow.com/questions/743549/how-to-put-image-in-a-picture-box-from-bitmap
+		//dicomImage->SetPixel(1, 1, Color::FromArgb(0,0x1f, 0x1f, 0x1f));
+		ParserH::getBitmap(bitmapHeight, bitmapWidth, frameNumber, stdFileName, this->dicomImage);
+		//display picture
+		pictureBox1->Image = this->dicomImage;
 		//fileName->
-		puntoexe::imebra::testView(frameNumber, stdFileName);
+		//puntoexe::imebra::testView(frameNumber, stdFileName);
+		this->Info_label->Text = debugInfo;
 	}
 	private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 	}
