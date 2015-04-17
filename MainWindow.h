@@ -53,7 +53,8 @@ namespace Sim_interface {
 		/// <summary>
 		/// Required designer variable.
 		Bitmap ^ dicomImage; //IS CAUSNG MEMORY LEAKING????=================================
-		/// </summary>
+	private: System::Windows::Forms::Button^  saveCurrent;
+			 /// </summary>
 		System::ComponentModel::Container ^components;
 		
 
@@ -71,6 +72,7 @@ namespace Sim_interface {
 			this->Debug_label = (gcnew System::Windows::Forms::Label());
 			this->Info_label = (gcnew System::Windows::Forms::Label());
 			this->label_FrameNumber = (gcnew System::Windows::Forms::Label());
+			this->saveCurrent = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -132,11 +134,22 @@ namespace Sim_interface {
 			this->label_FrameNumber->Text = L"Frame Number:";
 			this->label_FrameNumber->Click += gcnew System::EventHandler(this, &MainWindow::label1_Click);
 			// 
+			// saveCurrent
+			// 
+			this->saveCurrent->Location = System::Drawing::Point(555, 106);
+			this->saveCurrent->Name = L"saveCurrent";
+			this->saveCurrent->Size = System::Drawing::Size(112, 33);
+			this->saveCurrent->TabIndex = 6;
+			this->saveCurrent->Text = L"save current pic";
+			this->saveCurrent->UseVisualStyleBackColor = true;
+			this->saveCurrent->Click += gcnew System::EventHandler(this, &MainWindow::saveCurrent_Click);
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(803, 526);
+			this->Controls->Add(this->saveCurrent);
 			this->Controls->Add(this->label_FrameNumber);
 			this->Controls->Add(this->Info_label);
 			this->Controls->Add(this->Debug_label);
@@ -151,55 +164,67 @@ namespace Sim_interface {
 
 		}
 #pragma endregion
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-		//variables
-		unsigned int frameNumber;
-		String^ debugInfo;
-		String^ fileName;
-		int bitmapHeight = 0, bitmapWidth = 0;
-		
-		std::string stdFileName;
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);// {
+	//	//variables
+	//	unsigned int frameNumber;
+	//	String^ debugInfo;
+	//	String^ fileName;
+	//	int bitmapHeight = 0, bitmapWidth = 0;
+	//	
+	//	std::string stdFileName;
 
-		try
-		{
-			//get frame number
-			frameNumber = Convert::ToUInt32(this->frame_textBox->Text);
-			debugInfo = "selected frame = " + Convert::ToString(frameNumber) + "\n";			
-			//get file
-			//TO DO Add filters, filename corectness checking
-			OpenFileDialog^ dlg = gcnew OpenFileDialog();
-			dlg->ShowDialog();
-			fileName = dlg->FileName; 			
-			ParserH::MarshalString(fileName, stdFileName);
-			ParserH::fileNametoPath(stdFileName);
-			String^ tmpString= gcnew String(stdFileName.c_str());
-			debugInfo = debugInfo + "selected file = \n" + tmpString + "\n";
+	//	try
+	//	{
+	//		//get frame number
+	//		frameNumber = Convert::ToUInt32(this->frame_textBox->Text);
+	//		debugInfo = "selected frame = " + Convert::ToString(frameNumber) + "\n";			
+	//		//get file
+	//		//TO DO Add filters, filename corectness checking
+	//		OpenFileDialog^ dlg = gcnew OpenFileDialog();
+	//		dlg->ShowDialog();
+	//		fileName = dlg->FileName; 			
+	//		ParserH::MarshalString(fileName, stdFileName);
+	//		ParserH::fileNametoPath(stdFileName);
+	//		String^ tmpString= gcnew String(stdFileName.c_str());
+	//		debugInfo = debugInfo + "selected file = \n" + tmpString + "\n";
 
-			
-		}
-		catch (Exception^ errorHandle){
-			this->Info_label->Text = errorHandle->Message;
-			return;
-		}		
-		//get height and width
-		ParserH::getImageSize(bitmapHeight, bitmapWidth, frameNumber, stdFileName);
-		debugInfo = "bitmapHeight = " + bitmapHeight + "\nbitmapWidth = " + bitmapWidth;//Format16bppGrayScale
-		//create bitmap
-		//Bitmap^ dicomImage = gcnew Bitmap(bitmapHeight, bitmapWidth, Imaging::PixelFormat::Format16bppGrayScale);  //http://stackoverflow.com/questions/743549/how-to-put-image-in-a-picture-box-from-bitmap
-		this->dicomImage = gcnew Bitmap(bitmapHeight, bitmapWidth,Imaging::PixelFormat::Format24bppRgb);  //http://stackoverflow.com/questions/743549/how-to-put-image-in-a-picture-box-from-bitmap
-		//dicomImage->SetPixel(1, 1, Color::FromArgb(0,0x1f, 0x1f, 0x1f));
-		ParserH::getBitmap(bitmapHeight, bitmapWidth, frameNumber, stdFileName, this->dicomImage);
-		//display picture
-		pictureBox1->Image = this->dicomImage;
-		//fileName->
-		//puntoexe::imebra::testView(frameNumber, stdFileName);
-		this->Info_label->Text = debugInfo;
-	}
+	//		
+	//	}
+	//	catch (Exception^ errorHandle){
+	//		this->Info_label->Text = errorHandle->Message;
+	//		return;
+	//	}		
+	//	//get height and width
+	//	ParserH::getImageSize(bitmapHeight, bitmapWidth, frameNumber, stdFileName);
+	//	debugInfo = "bitmapHeight = " + bitmapHeight + "\nbitmapWidth = " + bitmapWidth;//Format16bppGrayScale
+	//	//create bitmap
+	//	//Bitmap^ dicomImage = gcnew Bitmap(bitmapHeight, bitmapWidth, Imaging::PixelFormat::Format16bppGrayScale);  //http://stackoverflow.com/questions/743549/how-to-put-image-in-a-picture-box-from-bitmap
+	//	this->dicomImage = gcnew Bitmap(bitmapHeight, bitmapWidth,Imaging::PixelFormat::Format24bppRgb);  //http://stackoverflow.com/questions/743549/how-to-put-image-in-a-picture-box-from-bitmap
+	//	//dicomImage->SetPixel(1, 1, Color::FromArgb(0,0x1f, 0x1f, 0x1f));
+	//	ParserH::getBitmap(bitmapHeight, bitmapWidth, frameNumber, stdFileName, this->dicomImage);
+	//	//display picture
+	//	pictureBox1->Image = this->dicomImage;
+	//	//fileName->
+	//	//puntoexe::imebra::testView(frameNumber, stdFileName);
+	//	this->Info_label->Text = debugInfo;
+	//}
 	private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 	}
 	private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
 	private: System::Void label1_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
+	private: System::Void saveCurrent_Click(System::Object^  sender, System::EventArgs^  e);// {
+		//Displays a save file dialog so the user can save the Image assigned to button
+		//SaveFileDialog ^ saveFileDialog = gcnew SaveFileDialog();
+		//saveFileDialog->Filter = "JPeg Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif";
+		//saveFileDialog->Title = "Save an Image File";
+		//saveFileDialog->ShowDialog();
+		////if filename is not empty string
+		//if (saveFileDialog->FileName != ""){
+		//	//Console::WriteLine(saveFileDialog->FileName);
+		//	this->Info_label->Text = "filename for saving: " + saveFileDialog->FileName;
+		//}
+	//}
 };
 }

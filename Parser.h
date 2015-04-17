@@ -16,10 +16,6 @@ namespace  ParserH
 {
 	//convert C# string to std::string (C++)
 	void MarshalString(String ^ s, std::string& os);//https://msdn.microsoft.com/en-us/library/1b4az623.aspx
-
-	//void inverseMarshalString()
-
-	//convert all "\" to "\\"
 	void fileNametoPath(std::string% os);
 	void getImageSize(int& height,int& width, unsigned int frameNumber, std::string fileName);
 	void getBitmap(const int height, const int width, unsigned int frameNumber, std::string fileName, Bitmap^ dicomImage);
